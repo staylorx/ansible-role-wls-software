@@ -1,2 +1,11 @@
 ---
 # vars file for staylorx.wlssoftware
+
+oracle_user_name: oracle
+oracle_group_name: dba
+
+java_home: /usr/java/latest
+oracle_base: /opt/oracle
+mw_home: {{ oracle_base }}/product
+wl_home: {{ mw_home }}/wlserver
+
