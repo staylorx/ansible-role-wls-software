@@ -1,2 +1,18 @@
 ---
 # tasks file for staylorx.wlssoftware
+
+- name: Create installer directory
+  file: state=directory path={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
+
+- name: Copy Middleware Installer
+  copy: src={{ mw_installer }} dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
+
+- name: Copy file for silent installation
+  template: src=silent-weblogic.txt.j2 dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
+
+- name: Copy OraInst.loc
+  template: src=oraInst.loc.j2 dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
+
+- name: execute Weblogic installer
+  command: "{{ java_home }}/bin/java -Xmx1024m -jar {{ mw_installer_folder }}/{{ mw_installer }} -silent -responseFile {{ mw_installer_folder }}/silent-weblogic.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
+  become_user: '{{ oracle_user_name }}'
