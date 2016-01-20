@@ -7,7 +7,7 @@
   become_user: "{{ oracle_user_name }}"
 
 - name: Copy Middleware Installer
-  copy: src={{ mw_installer_name }} dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
+  copy: src=files/{{ mw_installer_name }} dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
   become_user: "{{ oracle_user_name }}"
 
 - name: Copy file for silent installation
