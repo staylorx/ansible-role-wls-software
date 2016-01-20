@@ -8,5 +8,5 @@ java_home: /usr/java/latest
 oracle_base: /opt/oracle
 mw_home: "{{ oracle_base }}/product"
 wl_home: "{{ oracle_base }}/wlserver"
-mw_installer_home: "{{ oracle_base }}/installer"
+mw_installer_folder: "{{ oracle_base }}/installer"
 mw_installer_name: "fmw_12.2.1.0.0_wls.jar"
