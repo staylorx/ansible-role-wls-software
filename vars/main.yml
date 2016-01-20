@@ -5,7 +5,9 @@ oracle_user_name: oracle
 oracle_group_name: dba
 
 java_home: /usr/java/latest
-oracle_base: /opt/oracle
+
+# Some controversy over the oracle base, is it better than /u01/...blah, or /opt/oracle (which is great, but lacks the required /var/oracle). Don't know yet.
+oracle_base: /home/oracle
 mw_home: "{{ oracle_base }}/product"
 wl_home: "{{ oracle_base }}/wlserver"
 mw_installer_folder: "{{ oracle_base }}/installer"
