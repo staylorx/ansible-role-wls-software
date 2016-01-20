@@ -9,13 +9,14 @@
 - name: Copy Middleware Installer
   copy: src=files/{{ mw_installer_name }} dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
   become_user: "{{ oracle_user_name }}"
+  creates: "{{ mw_installer_folder}}/{{ mw_installer_name }}"
 
 - name: Copy file for silent installation
-  template: src=silent-weblogic.txt.j2 dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
+  template: src=silent-weblogic.txt.j2 dest="{{ mw_installer_folder }}/silent-weblogic.txt" owner={{ oracle_user_name }} group={{ oracle_group_name }}
   become_user: "{{ oracle_user_name }}"
 
 - name: Copy OraInst.loc
-  template: src=oraInst.loc.j2 dest={{ mw_installer_folder }} owner={{ oracle_user_name }} group={{ oracle_group_name }}
+  template: src=oraInst.loc.j2 dest="{{ mw_installer_folder }}/oraInst.loc" owner={{ oracle_user_name }} group={{ oracle_group_name }}
   become_user: "{{ oracle_user_name }}"
 
 - name: execute Weblogic installer
