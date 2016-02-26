@@ -8,7 +8,7 @@ java_home: /usr/java/latest
 oracle_base: /home/oracle
 # collapsing the product into the base... not going to install more than one product.
 mw_home: "{{ oracle_base }}/fmw12.2.1"
-oracle_home: "{{ oracle_base }}/oracle_common"
+oracle_home: "{{ mw_home }}/oracle_common"
 wl_home: "{{ mw_home }}/wlserver"
 mw_installer_folder: "{{ oracle_base }}/installer"
 
