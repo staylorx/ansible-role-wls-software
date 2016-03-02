@@ -2,20 +2,33 @@
 # defaults file for staylorx.wlssoftware
 
 oracle_user_name: oracle
-oracle_group_name: dba
+oracle_group_name: oinstall 
 java_home: /usr/java/latest
 
 oracle_base: /home/oracle
+
+# Example to install WLS alone
+#mw_installer_name: "fmw_12.2.1.0.0_wls.jar"
+#install_type: "WebLogic Server"
+
+# For SOA Suite, OSB, etc.
+mw_installer_name: "fmw_12.2.1.0.0_infrastructure.jar"
+install_type: "Fusion Middleware Infrastructure"
+
 # collapsing the product into the base... not going to install more than one product.
 mw_home: "{{ oracle_base }}/fmw12.2.1"
 oracle_home: "{{ mw_home }}/oracle_common"
 wl_home: "{{ mw_home }}/wlserver"
 mw_installer_folder: "{{ oracle_base }}/installer"
 
-#Example to install WLS alone
-#mw_installer_name: "fmw_12.2.1.0.0_wls.jar"
-#install_type: "WebLogic Server"
+domain_name: WLSDomain
+domain_home: "{{ oracle_base }}/config/domains/{{ domain_name }}"
 
-#For SOA Suite, OSB, etc.
-mw_installer_name: "fmw_12.2.1.0.0_infrastructure.jar"
-install_type: "Fusion Middleware Infrastructure"
+# Override this with the correct templates from the install.
+# Examples here from the basic weblogic install.
+templates:
+  - { name: "Basic WebLogic Server Domain", version: "12.2.1" }
+  - { name: "WebLogic Advanced Web Services for JAX-RPC Extension", version: "12.2.1" }
+  - { name: "WebLogic Advanced Web Services for JAX-WS Extension", version: "12.2.1" }
+  - { name: "WebLogic Coherence Cluster Extension", version: "12.2.1" }
+  - { name: "WebLogic JAX-WS SOAP/JMS Extension", version: "12.2.1" }
