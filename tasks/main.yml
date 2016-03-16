@@ -23,26 +23,3 @@
   args:
     creates: "{{ mw_home }}/"
   become_user: "{{ oracle_user_name }}"
-
-- name: copy over the create-admin.py script
-  template: src=templates/create-admin.py.j2 dest="{{ mw_installer_folder }}/create-admin.py" mode=0700
-
-- name: check for domain home already installed
-  stat: path="{{ domain_home }}"
-  register: domain_home_var
-
-# Not happy to have to do this but I need the urandom to increase the speed of this thing
-- name: replace the wlst.sh script
-  template: src=templates/wlst.sh.j2 dest="{{ mw_home }}/oracle_common/common/bin/wlst.sh" mode=0750
-
-# Important. If the urandom file isn't passed to java this step can take 15+ minutes.
-- name: create admin/domain
-  command: "{{ mw_home }}/oracle_common/common/bin/wlst.sh {{ mw_installer_folder }}/create-admin.py"
-
-- name: create the security folder for boot.properties
-  file: path="{{ domain_home }}/servers/AdminServer/security" state=directory mode=0750
-  become_user: "{{ oracle_user_name }}"
-
-- name: copy over the boot.properties file
-  template: src=templates/boot.properties.j2 dest="{{ domain_home }}/servers/AdminServer/security/boot.properties" mode=0660
-  become_user: "{{ oracle_user_name }}"
