@@ -3,32 +3,13 @@
 - name: Create installer directory
   file: state=directory path={{ mw_installer_folder }} owner={{ oracle_user }} group={{ oracle_group }}
 
-- name: Copy Middleware Installer
-  copy: src=files/{{ fmw_install_zip }} dest="{{ mw_installer_folder }}" owner={{ oracle_user }} group={{ oracle_group }} mode=0755
-  when: "{{ download_flag }}"
+- name: Copy oraInst.loc for silent installation
+  template: src=oraInst.loc.j2 dest="{{ mw_installer_folder }}/oraInst.loc" owner={{ oracle_user }} group={{ oracle_group }}
 
-- name: unzip installer
-  command: unzip {{ mw_installer_folder }}/{{ fmw_install_zip }} -d {{ mw_installer_folder }} 
-  args:
-    creates: "{{ mw_installer_folder }}/{{ fmw_install_jar }}"
-
-- name: Copy files for silent installation
-  template: src={{ item }}.j2 dest="{{ mw_installer_folder }}/{{ item }}" owner={{ oracle_user }} group={{ oracle_group }}
-  with_items:
-    - silent-weblogic.txt
-    - oraInst.loc
-
-- name: execute Weblogic installer
-  command: "{{ java_home }}/bin/java -Djava.security.egd=file:/dev/./urandom -Xmx1024m -jar {{ mw_installer_folder }}/{{ fmw_install_jar }} -silent -responseFile {{ mw_installer_folder }}/silent-weblogic.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
-  args:
-    creates: "{{ mw_home }}/"
+- include: layout.yml
+  vars:
+    oracle_install_code: "{{ item }}"
+  with_items: "{{ oracle_installs }}"
 
 - name: cleanup
-  file: path="{{ mw_installer_folder }}/{{ item }}" state=absent
-  with_items:
-    - silent-weblogic.txt
-    - oraInst.loc
-
-- name: cleanup source
-  file: path="{{ mw_installer_folder }}/{{ fmw_install_jar }}" state=absent
-  when: "{{ cleanup_flag }}"
+  file: path="{{ mw_installer_folder }}/oraInst.loc" state=absent

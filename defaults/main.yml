@@ -8,72 +8,50 @@ oracle_group: oinstall
 java_home: /usr/java/latest
 sources_dir: /usr/local/src
 oracle_base: /home/oracle
-weblogic_user: weblogic
-domain_home: "{{ oracle_base }}/config/domains/{{ domain_name }}"
-nodemanager_home: "{{ domain_home }}/nodemanager"
 mw_home: "{{ oracle_base }}/middleware"
-oracle_home: "{{ mw_home }}/oracle_common"
-wl_home: "{{ mw_home }}/wlserver"
 mw_installer_folder: "{{ oracle_base }}/installer"
 
-#making the choice to only install the infrastructure since it's more flexible
-fmw_install_zip: "fmw_12.2.1.0.0_infrastructure_Disk1_1of1.zip"
-fmw_install_type: "Fusion Middleware Infrastructure"
-fmw_install_jar: fmw_12.2.1.0.0_infrastructure.jar
+# default install example
+oracle_installs:
+  - FMW,INFRA
+  - OHS,COLOCATED
 
-# Override this with the correct templates from the install.
-# Examples here from the basic weblogic install.
-templates:
-  - { name: "Basic WebLogic Server Domain", version: "12.2.1" }
-  - { name: "WebLogic Advanced Web Services for JAX-RPC Extension", version: "12.2.1" }
-  - { name: "WebLogic Advanced Web Services for JAX-WS Extension", version: "12.2.1" }
-  - { name: "WebLogic Coherence Cluster Extension", version: "12.2.1" }
-  - { name: "WebLogic JAX-WS SOAP/JMS Extension", version: "12.2.1" }
+# A "lookup table" for the Oracle products.
+# There are multiple types of installation per template package
+# and these are indicated by codes in UPPERCASE.
+oracle_products:
+  FMW:
+    install_zip:     fmw_12.2.1.0.0_infrastructure_Disk1_1of1.zip
+    install_binary:  fmw_12.2.1.0.0_infrastructure.jar
+    binary_type:     jar
+    create_artifact: wlserver
+    INFRA:           Fusion Middleware Infrastructure
+    EXAMPLES:        Fusion Middleware Infrastructure With Examples
+  WLS:
+    install_zip:     fmw_12.2.1.0.0_wls_Disk1_1of1.zip
+    install_binary:  fmw_12.2.1.0.0_wls.jar
+    binary_type:     jar
+    create_artifact: wlserver
+    BASIC:           WebLogic Server
+    COHERENCE:       Coherence
+    EXAMPLES:        Complete with Examples
+  OHS:
+    install_zip:     fmw_12.2.1.0.0_ohs_linux64_Disk1_1of1.zip
+    install_binary:  fmw_12.2.1.0.0_ohs_linux64.bin
+    binary_type:     bin
+    create_artifact: ohs
+    COLOCATED:       Collocated HTTP Server (Managed through WebLogic server)
+    STANDALONE:      Standalone HTTP Server (Managed independently of WebLogic server)
+  EDQ:
+    install_zip:     fmw_12.2.1.0.0_edq_Disk1_1of1.zip
+    install_binary:  fmw_12.2.1.0.0_edq.jar
+    binary_type:     jar
+    create_artifact: edq
+    WEBLOGIC:        Installation for Weblogic Server
+  OSB:
+    install_zip:     fmw_12.2.1.0.0_osb_linux64_Disk1_1of1.zip
+    install_binary:  fmw_12.2.1.0.0_osb.jar
+    binary_type:     jar
+    create_artifact: osb 
+    SERVICEBUS:      Service Bus
 
-#
-# Wrinkle with RHEL7 on a Satellite is the compat-libstdc++.33 is hard to find.
-# compat-libstdc++-33-3.2.3-72.el7.x86_64.rpm
-# I've included it in here under lib/ for reference. 
-#
-
-#Time-honoured list of packages to support RDBMS, WLS, FMW, etc.
-package_list:
-  - 'binutils'
-  - 'compat-libcap1'
-  - 'gcc.x86_64'
-  - 'gcc-c++.x86_64'
-  - 'glibc.x86_64'
-  - 'glibc-devel.x86_64'
-  - 'libaio.x86_64'
-  - 'libaio-devel.x86_64'
-  - 'libgcc.x86_64'
-  - 'libstdc++.x86_64'
-  - 'libstdc++-devel.x86_64'
-  - 'libselinux-python'
-  - 'ksh'
-  - 'make'
-  - 'sysstat'
-  - libXtst
-  - libXi
-  - xauth
-  - xclock
-
-kernel_params:
-   kernel.shmmax: 2147483648
-   kernel.shmall: 524288
-   net.core.rmem_max: 16777216
-   net.core.wmem_max: 16777216
-   net.ipv4.tcp_rmem: 4096 87380 16777216
-   net.ipv4.tcp_wmem: 4096 65536 16777216
-   vm.swappiness: 10
-   vm.dirty_background_ratio: 5
-   vm.dirty_ratio: 10
-   fs.file-max: 262144
-   net.ipv4.tcp_keepalive_time: 300
-   net.ipv4.tcp_keepalive_intvl: 60
-   net.ipv4.tcp_keepalive_probes: 10
-
-soft_no_file: 4096
-hard_no_file: 65536
-soft_nproc: 2047
-hard_nproc: 16384
