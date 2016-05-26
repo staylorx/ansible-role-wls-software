@@ -28,8 +28,7 @@ An example to install FMW Infrastructure, a colocated OHS, and the EDQ binaries:
   become: yes
   become_user: oracle
   vars:
-    #download_flag: false
-    cleanup_flag: false
+    download_flag: false
     oracle_installs:
       - FMW,EXAMPLES
       - OHS,COLOCATED
