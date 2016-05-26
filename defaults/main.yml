@@ -1,12 +1,11 @@
 ---
 
-download_flag: true
-cleanup_flag: true
+#implies you have the software under *mw_installer_folder
+download_flag: false
 
 oracle_user: oracle
 oracle_group: oinstall 
 java_home: /usr/java/latest
-sources_dir: /usr/local/src
 oracle_base: /home/oracle
 mw_home: "{{ oracle_base }}/middleware"
 mw_installer_folder: "{{ oracle_base }}/installer"
