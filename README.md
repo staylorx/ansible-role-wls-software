@@ -22,14 +22,25 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+An example to install FMW Infrastructure, a colocated OHS, and the EDQ binaries:
 
-    - hosts: servers
-      roles:
-         - { role: staylorx.wlssoftware, oracle_user_name: oracle }
+- hosts: admin
+  become: yes
+  become_user: oracle
+  vars:
+    #download_flag: false
+    cleanup_flag: false
+    oracle_installs:
+      - FMW,EXAMPLES
+      - OHS,COLOCATED
+      - EDQ,WEBLOGIC
+  roles:
+    - role: staylorx.wls-software
+
+See the defaults/main.yml to see the code lists for products.
 
 License
 -------
 
-BSD, MIT
+MIT
 

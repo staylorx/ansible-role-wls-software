@@ -39,4 +39,3 @@
 
 - name: cleanup source
   file: path="{{ mw_installer_folder }}/{{ oracle_product.install_binary }}" state=absent
-  when: "{{ cleanup_flag }}"
