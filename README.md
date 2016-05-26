@@ -8,6 +8,7 @@ Requirements
 
 This presumes the wlsprep and java roles have been run. At least a JDK7 is required.
 
+NOTE: The zip archives from Oracle are huge. Right now these copy from the files directory of the machine running Ansible. If the download_flag is set to true these will copy over. Otherwise, it is expected that the zips are already on the machine. Where I am I mount a shared folder and copy these to where they need to be.
 
 Role Variables
 --------------
