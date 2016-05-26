@@ -24,18 +24,19 @@ Example Playbook
 
 An example to install FMW Infrastructure, a colocated OHS, and the EDQ binaries:
 
-
-  - hosts: admin
-    become: yes
-    become_user: oracle
-    vars:
-      download_flag: false
-      oracle_installs:
-        - FMW,EXAMPLES
-        - OHS,COLOCATED
-        - EDQ,WEBLOGIC
-    roles:
-      - role: staylorx.wls-software
+```yaml
+- hosts: admin
+  become: yes
+  become_user: oracle
+  vars:
+    download_flag: false
+    oracle_installs:
+      - FMW,EXAMPLES
+      - OHS,COLOCATED
+      - EDQ,WEBLOGIC
+  roles:
+    - role: staylorx.wls-software
+```
 
 See the defaults/main.yml to see the code lists for products.
 
