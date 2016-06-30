@@ -15,11 +15,11 @@
   when: "{{ download_flag }}"
 
 - name: unzip installer for {{ install_type }}
-  command: unzip {{ mw_installer_folder }}/{{ oracle_product.install_zip }} -d {{ mw_installer_folder }} warn=no
+  command: unzip {{ mw_installer_folder }}/{{ oracle_product.install_zip }} {{ oracle_product.install_binary }} -d {{ mw_installer_folder }} warn=no
   args:
     creates: "{{ mw_installer_folder }}/{{ oracle_product.install_binary }}"
 
-- name: Copy response for silent installation
+- name: Copy response for silent installation of {{ install_type }}
   template: src=silent-response.txt.j2 dest="{{ mw_installer_folder }}/silent-response.txt" owner={{ oracle_user }} group={{ oracle_group }}
 
 - name: execute {{ install_type }} jar installer
