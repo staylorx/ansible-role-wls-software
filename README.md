@@ -32,9 +32,9 @@ An example to install FMW Infrastructure, a colocated OHS, and the EDQ binaries:
   vars:
     download_flag: false
     oracle_installs:
-      - FMW,EXAMPLES
-      - OHS,COLOCATED
-      - EDQ,WEBLOGIC
+      - FMW_12.2.1.1.0,EXAMPLES
+      - OHS_12.2.1.1.0,COLOCATED
+      - EDQ_12.2.1.1.0,WEBLOGIC
   roles:
     - role: staylorx.wls-software
 ```
