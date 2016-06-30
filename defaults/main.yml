@@ -9,6 +9,7 @@ java_home: /usr/java/latest
 oracle_base: /home/oracle
 mw_home: "{{ oracle_base }}/middleware"
 mw_installer_folder: "{{ oracle_base }}/installer"
+remove_download: yes
 
 # default install example
 oracle_installs:
