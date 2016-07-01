@@ -1,20 +1,22 @@
 ---
 
 - set_fact:
-    oracle_product_code: "{{ oracle_install_code.split(',')[0] }}"
-    install_type_code: "{{ oracle_install_code.split(',')[1] }}"
+    oracle_product_code: "{{ oracle_install_code.product }}"
+    install_type_code: "{{ oracle_install_code.install_type }}"
 
+# lookup the product from the oracle_products "table" in defaults/main.yml
 - set_fact:
     oracle_product: "{{ oracle_products[oracle_product_code] }}"
 
+# now lookup the install_type from the product we just found
 - set_fact:
     install_type: "{{ oracle_product[install_type_code] }}"
 
-- name: Copy Middleware Installer for {{ install_type }}
+- name: Copy Middleware Installer for {{ oracle_product_code }}
   copy: src=files/{{ oracle_product.install_zip }} dest="{{ mw_installer_folder }}" owner={{ oracle_user }} group={{ oracle_group }} mode=0755
   when: "{{ download_flag }}"
 
-- name: unzip installer for {{ install_type }}
+- name: unzip installer for {{ oracle_product_code }}
   command: unzip {{ mw_installer_folder }}/{{ oracle_product.install_zip }} {{ oracle_product.install_binary }} -d {{ mw_installer_folder }} warn=no
   args:
     creates: "{{ mw_installer_folder }}/{{ oracle_product.install_binary }}"
@@ -22,7 +24,7 @@
 - name: Copy response for silent installation of {{ install_type }}
   template: src=silent-response.txt.j2 dest="{{ mw_installer_folder }}/silent-response.txt" owner={{ oracle_user }} group={{ oracle_group }}
 
-- name: execute {{ install_type }} jar installer
+- name: execute {{ oracle_product_code }} jar installer
   command: "{{ java_home }}/bin/java -Djava.security.egd=file:/dev/./urandom -Xmx1024m -jar {{ mw_installer_folder }}/{{ oracle_product.install_binary }} -silent -responseFile {{ mw_installer_folder }}/silent-response.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
   args:
     creates: "{{ mw_home }}/{{ oracle_product.create_artifact }}"
@@ -39,4 +41,3 @@
 
 - name: cleanup source
   file: path="{{ mw_installer_folder }}/{{ oracle_product.install_binary }}" state=absent
-  when: "{{ remove_download }}"

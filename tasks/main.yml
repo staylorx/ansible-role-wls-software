@@ -7,9 +7,9 @@
   template: src=oraInst.loc.j2 dest="{{ mw_installer_folder }}/oraInst.loc" owner={{ oracle_user }} group={{ oracle_group }}
 
 - include: layout.yml
-  vars:
-    oracle_install_code: "{{ item }}"
   with_items: "{{ oracle_installs }}"
+  loop_control:
+    loop_var: oracle_install_code
 
 - name: cleanup
   file: path="{{ mw_installer_folder }}/oraInst.loc" state=absent

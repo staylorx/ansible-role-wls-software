@@ -9,12 +9,11 @@ java_home: /usr/java/latest
 oracle_base: /home/oracle
 mw_home: "{{ oracle_base }}/middleware"
 mw_installer_folder: "{{ oracle_base }}/installer"
-remove_download: yes
 
 # default install example
 oracle_installs:
-  - FMW_12.2.1.1.0,INFRA
-  - OHS_12.2.1.1.0,COLOCATED
+  - { product: FMW_12.2.1.1.0, install_type: INFRA }
+  - { product: OHS_12.2.1.1.0, install_type: COLOCATED }
 
 # A "lookup table" for the Oracle products.
 # There are multiple types of installation per template package

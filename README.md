@@ -23,7 +23,7 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-An example to install FMW Infrastructure, a colocated OHS, and the EDQ binaries:
+An example to install FMW Infrastructure and a colocated OHS:
 
 ```yaml
 - hosts: admin
@@ -32,9 +32,8 @@ An example to install FMW Infrastructure, a colocated OHS, and the EDQ binaries:
   vars:
     download_flag: false
     oracle_installs:
-      - FMW_12.2.1.1.0,EXAMPLES
-      - OHS_12.2.1.1.0,COLOCATED
-      - EDQ_12.2.1.1.0,WEBLOGIC
+      - { product: FMW_12.2.1.1.0, install_type: INFRA }
+      - { product: OHS_12.2.1.1.0, install_type: COLOCATED }
   roles:
     - role: staylorx.wls-software
 ```
