@@ -1,10 +1,28 @@
 ---
 
+- name: Create oracle base directory
+  become: yes
+  become_user: root
+  file:
+    state: directory
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
+    mode:  0770
+    path:  "{{ oracle_base }}"
+
 - name: Create installer directory
-  file: state=directory path={{ mw_installer_folder }} owner={{ oracle_user }} group={{ oracle_group }}
+  file: 
+    state: directory 
+    path: "{{ mw_installer_folder }}"
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
 
 - name: Copy oraInst.loc for silent installation
-  template: src=oraInst.loc.j2 dest="{{ mw_installer_folder }}/oraInst.loc" owner={{ oracle_user }} group={{ oracle_group }}
+  template: 
+    src: oraInst.loc.j2 
+    dest: "{{ mw_installer_folder }}/oraInst.loc" 
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
 
 - include: layout.yml
   with_items: "{{ oracle_installs }}"
@@ -12,4 +30,6 @@
     loop_var: oracle_install_code
 
 - name: cleanup
-  file: path="{{ mw_installer_folder }}/oraInst.loc" state=absent
+  file: 
+    path: "{{ mw_installer_folder }}/oraInst.loc" 
+    state: absent
