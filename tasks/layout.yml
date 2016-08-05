@@ -13,31 +13,61 @@
     install_type: "{{ oracle_product[install_type_code] }}"
 
 - name: Copy Middleware Installer for {{ oracle_product_code }}
-  copy: src=files/{{ oracle_product.install_zip }} dest="{{ mw_installer_folder }}" owner={{ oracle_user }} group={{ oracle_group }} mode=0755
+  copy: 
+    src:   files/{{ item }} 
+    dest:  "{{ mw_installer_folder }}" 
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
+    mode:  0755
+  with_items: "{{ oracle_product.install_zips }}"
   when: "{{ download_flag }}"
 
+- name: clear extract folder
+  file:
+    path:  "{{ mw_installer_folder }}/extract"
+    state: absent
+
+- name: create extract folder
+  file:
+    path:  "{{ mw_installer_folder }}/extract"
+    state: directory
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
+
 - name: unzip installer for {{ oracle_product_code }}
-  command: unzip {{ mw_installer_folder }}/{{ oracle_product.install_zip }} {{ oracle_product.install_binary }} -d {{ mw_installer_folder }} warn=no
-  args:
-    creates: "{{ mw_installer_folder }}/{{ oracle_product.install_binary }}"
+  command: unzip {{ mw_installer_folder }}/{{ item }} -d {{ mw_installer_folder }}/extract warn=no
+  with_items: "{{ oracle_product.install_zips }}"
 
 - name: Copy response for silent installation of {{ install_type }}
-  template: src=silent-response.txt.j2 dest="{{ mw_installer_folder }}/silent-response.txt" owner={{ oracle_user }} group={{ oracle_group }}
+  template: 
+    src:   silent-response.txt.j2 
+    dest:  "{{ mw_installer_folder }}/silent-response.txt" 
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
 
 - name: execute {{ oracle_product_code }} jar installer
-  command: "{{ java_home }}/bin/java -Djava.security.egd=file:/dev/./urandom -Xmx1024m -jar {{ mw_installer_folder }}/{{ oracle_product.install_binary }} -silent -responseFile {{ mw_installer_folder }}/silent-response.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
+  command: "{{ java_home }}/bin/java -Djava.security.egd=file:/dev/./urandom -Xmx1024m -jar {{ mw_installer_folder }}/extract/{{ oracle_product.install_binary }} -silent -responseFile {{ mw_installer_folder }}/silent-response.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
   args:
     creates: "{{ mw_home }}/{{ oracle_product.create_artifact }}"
   when: oracle_product.binary_type == 'jar'
 
 - name: execute {{ install_type }} bin installer
-  command: "{{ mw_installer_folder }}/{{ oracle_product.install_binary }} -silent -responseFile {{ mw_installer_folder }}/silent-response.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
+  command: "{{ mw_installer_folder }}/extract/{{ oracle_product.install_binary }} -silent -responseFile {{ mw_installer_folder }}/silent-response.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
   args:
     creates: "{{ mw_home }}/{{ oracle_product.create_artifact }}"
   when: oracle_product.binary_type == 'bin'
 
 - name: cleanup
-  file: path="{{ mw_installer_folder }}/silent-response.txt" state=absent
+  file: 
+    path:  "{{ mw_installer_folder }}/silent-response.txt" 
+    state: absent
 
 - name: cleanup source
-  file: path="{{ mw_installer_folder }}/{{ oracle_product.install_binary }}" state=absent
+  file: 
+    path:  "{{ mw_installer_folder }}/{{ oracle_product.install_binary }}" 
+    state: absent
+
+- name: cleanup extract
+  file:
+    path:  "{{ mw_installer_folder }}/extract"
+    state: absent

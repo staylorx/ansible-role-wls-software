@@ -20,21 +20,24 @@ oracle_installs:
 # and these are indicated by codes in UPPERCASE.
 oracle_products:
   FMW_12.2.1.0.0:
-    install_zip:     fmw_12.2.1.0.0_infrastructure_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.0.0_infrastructure_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.0.0_infrastructure.jar
     binary_type:     jar
     create_artifact: wlserver
     INFRA:           Fusion Middleware Infrastructure
     EXAMPLES:        Fusion Middleware Infrastructure With Examples
   FMW_12.2.1.1.0:
-    install_zip:     fmw_12.2.1.1.0_infrastructure_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.1.0_infrastructure_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.1.0_infrastructure.jar
     binary_type:     jar
     create_artifact: wlserver
     INFRA:           Fusion Middleware Infrastructure
     EXAMPLES:        Fusion Middleware Infrastructure With Examples
   WLS_12.2.1.0.0:
-    install_zip:     fmw_12.2.1.0.0_wls_Disk1_1of1.zip
+    install_zips:    
+      - fmw_12.2.1.0.0_wls_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.0.0_wls.jar
     binary_type:     jar
     create_artifact: wlserver
@@ -42,7 +45,8 @@ oracle_products:
     COHERENCE:       Coherence
     EXAMPLES:        Complete with Examples
   WLS_12.2.1.1.0:
-    install_zip:     fmw_12.2.1.1.0_wls_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.1.0_wls_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.1.0_wls.jar
     binary_type:     jar
     create_artifact: wlserver
@@ -50,35 +54,48 @@ oracle_products:
     COHERENCE:       Coherence
     EXAMPLES:        Complete with Examples
   OHS_12.2.1.0.0:
-    install_zip:     fmw_12.2.1.0.0_ohs_linux64_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.0.0_ohs_linux64_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.0.0_ohs_linux64.bin
     binary_type:     bin
     create_artifact: ohs
     COLOCATED:       Collocated HTTP Server (Managed through WebLogic server)
     STANDALONE:      Standalone HTTP Server (Managed independently of WebLogic server)
   OHS_12.2.1.1.0:
-    install_zip:     fmw_12.2.1.1.0_ohs_linux64_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.1.0_ohs_linux64_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.1.0_ohs_linux64.bin
     binary_type:     bin
     create_artifact: ohs
     COLOCATED:       Collocated HTTP Server (Managed through WebLogic server)
     STANDALONE:      Standalone HTTP Server (Managed independently of WebLogic server)
   EDQ_12.2.1.0.0:
-    install_zip:     fmw_12.2.1.0.0_edq_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.0.0_edq_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.0.0_edq.jar
     binary_type:     jar
     create_artifact: edq
     WEBLOGIC:        Installation for Weblogic Server
   EDQ_12.2.1.1.0:
-    install_zip:     fmw_12.2.1.1.0_edq_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.1.0_edq_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.1.0_edq.jar
     binary_type:     jar
     create_artifact: edq
     WEBLOGIC:        Installation for Weblogic Server
   OSB_12.2.1.0.0:
-    install_zip:     fmw_12.2.1.0.0_osb_linux64_Disk1_1of1.zip
+    install_zips:     
+      - fmw_12.2.1.0.0_osb_linux64_Disk1_1of1.zip
     install_binary:  fmw_12.2.1.0.0_osb.jar
     binary_type:     jar
     create_artifact: osb 
     SERVICEBUS:      Service Bus
-
+  ODI_12.2.1.1.0:
+    install_zips:     
+      - fmw_12.2.1.1.0_odi_Disk1_1of2.zip
+      - fmw_12.2.1.1.0_odi_Disk1_2of2.zip
+    install_binary:  fmw_12.2.1.1.0_odi.jar
+    binary_type:     jar
+    create_artifact: odi 
+    ENTERPRISE:      Enterprise Installation
+    STANDALONE:      Standalone Installation
