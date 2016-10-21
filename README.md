@@ -13,7 +13,16 @@ NOTE: The zip archives from Oracle are huge. Right now these copy from the files
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+```yaml
+  oracle_user: oracle
+  oracle_group: oinstall 
+  java_home: /usr/java/latest
+  oracle_base: /home/oracle
+  mw_home: "{{ oracle_base }}/middleware"
+  mw_installer_folder: "{{ oracle_base }}/installer"
+```
+
+There is some debate about where oracle binaries should go. This role does create the folder requiring root powers so an oracle_base of '/opt/oracle' is perfectly valid. It will be created as owned by the oracle_user.
 
 Dependencies
 ------------
