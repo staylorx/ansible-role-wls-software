@@ -1,11 +1,12 @@
 ---
 
-#implies you have the software under *mw_installer_folder
+#implies you have the software under *mw_software_folder
 download_flag: false
+mw_software_folder: "{{ oracle_base }}/software"
 
 oracle_user: oracle
 oracle_group: oinstall 
-java_home: /usr/java/latest
+java_home: /usr/java/default
 oracle_base: /home/oracle
 mw_home: "{{ oracle_base }}/middleware"
 mw_installer_folder: "{{ oracle_base }}/installer"
