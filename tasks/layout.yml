@@ -15,7 +15,7 @@
 - name: Copy Middleware Installer for {{ oracle_product_code }}
   copy: 
     src:   files/{{ item }} 
-    dest:  "{{ mw_installer_folder }}" 
+    dest:  "{{ mw_software_folder }}" 
     owner: "{{ oracle_user }}"
     group: "{{ oracle_group }}"
     mode:  0755
@@ -35,7 +35,7 @@
     group: "{{ oracle_group }}"
 
 - name: unzip installer for {{ oracle_product_code }}
-  command: unzip {{ mw_installer_folder }}/{{ item }} -d {{ mw_installer_folder }}/extract warn=no
+  command: unzip {{ mw_software_folder }}/{{ item }} -d {{ mw_installer_folder }}/extract warn=no
   with_items: "{{ oracle_product.install_zips }}"
 
 - name: Copy response for silent installation of {{ install_type }}
