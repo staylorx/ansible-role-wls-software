@@ -51,6 +51,10 @@
     creates: "{{ mw_home }}/{{ oracle_product.create_artifact }}"
   when: oracle_product.binary_type == 'jar'
 
+- name: ensure bin is executable
+  command: "chmod u+x {{ mw_installer_folder }}/extract/{{ oracle_product.install_binary }}"
+  when: oracle_product.binary_type == 'bin'
+
 - name: execute {{ install_type }} bin installer
   command: "{{ mw_installer_folder }}/extract/{{ oracle_product.install_binary }} -silent -responseFile {{ mw_installer_folder }}/silent-response.txt -invPtrLoc {{ mw_installer_folder }}/oraInst.loc"
   args:
