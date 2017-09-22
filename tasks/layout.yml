@@ -20,7 +20,7 @@
     group: "{{ oracle_group }}"
     mode:  0755
   with_items: "{{ oracle_product.install_zips }}"
-  when: "{{ download_flag }}"
+  when: download_flag
 
 - name: clear extract folder
   file:
