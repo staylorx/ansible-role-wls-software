@@ -1,5 +1,10 @@
 ---
 
+- name: test for the oracle base folder
+  stat:
+    path: "{{ oracle_base }}"
+  register: oracle_base_var
+
 - name: Create oracle base directory
   become: yes
   become_user: root
@@ -9,6 +14,7 @@
     group: "{{ oracle_group }}"
     mode:  0770
     path:  "{{ oracle_base }}"
+  when: oracle_base_var.stat.isdir is not defined
 
 - name: Create installer directory
   file: 
